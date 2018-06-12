@@ -9,7 +9,7 @@ import org.springframework.jdbc.datasource.DriverManagerDataSource;
 @Configuration
 public class SpringConfigurationDataSource {
 	
-	private static String dbUrl = "jdbc:mysql://localhost/sportsbetting_csilla_vizmathy";
+private static String dbUrl = "jdbc:mysql://localhost/sportsbetting_csilla_vizmathy";
 	private static String username = "root";
 	private static String password = "root";
 	

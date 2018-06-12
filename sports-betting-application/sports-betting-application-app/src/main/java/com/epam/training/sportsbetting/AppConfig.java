@@ -73,12 +73,11 @@ public class AppConfig {
         return messageSource;
     }
     
-    @Bean
+    @Bean   //new
     public static PropertySourcesPlaceholderConfigurer config() {
-    	PropertySourcesPlaceholderConfigurer result = new PropertySourcesPlaceholderConfigurer();
-    	result.setFileEncoding("UTF-8");
-    	return result;
+    PropertySourcesPlaceholderConfigurer result = new PropertySourcesPlaceholderConfigurer();
+    result.setFileEncoding("UTF-8");
+    return result;
     }
-
 
 }

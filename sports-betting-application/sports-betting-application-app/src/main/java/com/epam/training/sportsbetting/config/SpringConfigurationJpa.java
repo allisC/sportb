@@ -38,7 +38,7 @@ public class SpringConfigurationJpa {
 	Properties additionalProperties() {
 	      Properties properties = new Properties();
 	      properties.setProperty("hibernate.show_sql", "true");
-	      properties.setProperty("hibernate.hbm2ddl.auto", "create-drop");
+	      properties.setProperty("hibernate.hbm2ddl.auto", "create"); //create-drop
 	      properties.setProperty("hibernate.dialect", "org.hibernate.dialect.MySQL5Dialect");
 	      return properties;
 	   }

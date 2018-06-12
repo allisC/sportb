@@ -4,13 +4,14 @@ import java.io.File;
 import java.math.BigDecimal;
 
 import com.epam.training.sportsbetting.config.SpringConfigurationDataSource;
-
+import com.epam.training.sportsbetting.config.SpringConfigurationJpa;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import javax.sql.DataSource;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
@@ -43,6 +44,7 @@ public class App {
     private final WriteToConsole writeToConsole;
     private final BettingSession bettingSession;
     Player player;
+    static PlayerRepository pr;
 
     @Autowired
     private Environment env;
@@ -61,37 +63,30 @@ public class App {
     public static void main(String[] args) {
 
         LOG.info("Application starting");
-//        try (AnnotationConfigApplicationContext applicationContext = new AnnotationConfigApplicationContext(AppConfig.class)) {
-//            App app = applicationContext.getBean(App.class);
-//            app.runApp();
-//        }
-        
-        try (AnnotationConfigApplicationContext applicationContext = new AnnotationConfigApplicationContext(AppConfig.class, 
-                SpringConfigurationDataSource.class,
-                SpringConfigurationSpringData.class, 
-                SpringConfigurationJpa.class)) {
-            
+
+        try (AnnotationConfigApplicationContext applicationContext = new AnnotationConfigApplicationContext(AppConfig.class,
+                SpringConfigurationDataSource.class, SpringConfigurationSpringData.class, SpringConfigurationJpa.class)) {
+
             springDataExample(applicationContext);
-            
+
             App app = applicationContext.getBean(App.class);
             app.runApp();
         }
-        
 
     }
-    
+
     private static void springDataExample(ApplicationContext context) {
-        PlayerRepository pr = context.getBean(PlayerRepository.class);
+//        PlayerRepository pr = context.getBean(PlayerRepository.class);
+        pr = context.getBean(PlayerRepository.class);
         Player player = createPlayer();
 
         pr.save(player);
 
         System.out.println(pr.findPlayerByName("Cs"));
 
-        }
-    
-    
-    private static Player createPlayer() { //(String name, String accountNumber, double balance, Currency currency, LocalDate birthDate) {
+    }
+
+    private static Player createPlayer() { // (String name, String accountNumber, double balance, Currency currency, LocalDate birthDate) {
         Player player = new Player();
         player.setName("Cs");
         player.setAccountNumber("22");
@@ -108,17 +103,19 @@ public class App {
         bettingSession.makeWagers();
         sbService.setResults(sbDatabase.getPlayer(), sbDatabase.getWagers());
         writeToConsole.listWinnerOutcomes(sbDatabase.getPlayer(), sbDatabase.getWagers());
-        toXml();
+//        toXml();
+        pr.save(player);
+
     }
 
     public List<Wager> getWagersBeetweenDate(LocalDateTime from, LocalDateTime to) {
         List<Wager> wagers = sbDatabase.getWagers();
-        List<Wager> wagersBeetweenDates = new ArrayList<>();
+        List<Wager> wagersBetweenDates = new ArrayList<>();
         for (Wager wager : wagers) {
             if (wager.getTimeStamp().isAfter(from) && wager.getTimeStamp().isBefore(to))
-                wagersBeetweenDates.add(wager);
+                wagersBetweenDates.add(wager);
         }
-        return wagersBeetweenDates;
+        return wagersBetweenDates;
     }
 
     public void toXml() {
