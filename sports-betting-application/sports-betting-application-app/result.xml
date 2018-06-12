@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<wager>
+    <player>
+        <name>j</name>
+        <accountNumber>77</accountNumber>
+        <balance>76.6</balance>
+        <currency>HUF</currency>
+        <birthDate/>
+    </player>
+    <outcomeodd>
+        <oddValue>10.0</oddValue>
+        <validFrom/>
+        <validTo/>
+    </outcomeodd>
+    <amount>1.0</amount>
+    <currency>HUF</currency>
+    <timeStamp/>
+    <isProcessed>true</isProcessed>
+    <isWon>false</isWon>
+    <sportEvent>
+        <title>Arsenal vs Chelsea</title>
+        <startDate/>
+        <endDate/>
+        <bets>
+            <description>Oliver Giroud will score </description>
+        </bets>
+        <bets>
+            <description>the number of scored goals will be </description>
+        </bets>
+        <bets>
+            <description>the winner will be </description>
+        </bets>
+    </sportEvent>
+</wager>
