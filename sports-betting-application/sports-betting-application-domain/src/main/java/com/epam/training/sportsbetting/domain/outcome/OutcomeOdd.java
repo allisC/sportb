@@ -18,8 +18,6 @@ public class OutcomeOdd {
     @Id
     @GeneratedValue(strategy=GenerationType.AUTO)
     private Integer id;
-
-    // Outcome outcome;
     private double oddValue;
     private LocalDate validFrom;
     private LocalDate validTo;

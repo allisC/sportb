@@ -26,15 +26,14 @@ public class Bet {
     
     @Id
     @GeneratedValue(strategy=GenerationType.AUTO)
-    @XmlTransient  //Todo: maskepp megoldani
+    @XmlTransient  //Todo: maskepp 
     private Integer id;
-
     @XmlTransient
-    @Transient //TODO
+    @Transient //TODO: abstract class a SportEvent
     private SportEvent sportEvent;
     private String description;
     @XmlTransient
-    @Transient  //TODO
+    @OneToMany
     private List<Outcome> outcomes = new ArrayList<Outcome>(); // Different outcomes of the bet (list)
 
     public Bet(SportEvent sportEvent, String description, List<Outcome> outcomes) {

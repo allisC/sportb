@@ -18,19 +18,17 @@ import com.epam.training.sportsbetting.domain.bet.Bet;
 @XmlType(propOrder = { "title", "startDate", "endDate", "bets" })
 @XmlAccessorType(XmlAccessType.FIELD)
 //@Entity
-public abstract class SportEvent { 
-    
-//    @Id
-//    @GeneratedValue(strategy=GenerationType.AUTO)
-//    private Integer id;
+public abstract class SportEvent {
 
+//    @Id
+//    @GeneratedValue(strategy = GenerationType.AUTO)
+//    private Integer id;
     protected String title;
     protected LocalDate startDate;
     protected LocalDate endDate;
-
     public List<Bet> bets = new ArrayList<Bet>();
-    @XmlTransient
-    protected Result result = new Result();
+//    @XmlTransient
+//    protected Result result = new Result();
 
     protected SportEvent(String title, LocalDate startDate, LocalDate endDate) {
         super();
@@ -71,12 +69,12 @@ public abstract class SportEvent {
         this.bets = bets;
     }
 
-    public Result getResult() {
-        return result;
-    }
-
-    void setResult(Result result) {
-        this.result = result;
-    }
+//    public Result getResult() {
+//        return result;
+//    }
+//
+//    void setResult(Result result) {
+//        this.result = result;
+//    }
 
 }

@@ -18,15 +18,8 @@ public class Player {
     
     @Id
     @GeneratedValue(strategy=GenerationType.AUTO)
-    @XmlTransient   //Todo: mashogy megoldani
+    @XmlTransient   //Todo: maskepp
     private Integer id;
-
-    @Override
-    public String toString() {
-        return "Player [name=" + name + ", accountNumber=" + accountNumber + ", balance=" + balance + ", currency=" + currency + ", birthDate=" + birthDate
-                + "]";
-    }
-
     private String name;
     private String accountNumber;
     private double balance;
@@ -71,6 +64,12 @@ public class Player {
 
     public void setCurrency(Currency currency) {
         this.currency = currency;
+    }
+    
+    @Override
+    public String toString() {
+        return "Player [name=" + name + ", accountNumber=" + accountNumber + ", balance=" + balance + ", currency=" + currency + ", birthDate=" + birthDate
+                + "]";
     }
 
 }

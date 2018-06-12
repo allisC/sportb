@@ -2,9 +2,15 @@ package com.epam.training.sportsbetting.domain.wager;
 
 import java.time.LocalDateTime;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Transient;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 import javax.xml.bind.annotation.XmlType;
 
 import com.epam.training.sportsbetting.domain.user.*;
@@ -15,19 +21,27 @@ import com.epam.training.sportsbetting.domain.sportevent.SportEvent;
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(propOrder = { "player", "outcomeodd", "amount", "currency", "timeStamp", "isProcessed", "isWon", "sportEvent" })
 @XmlRootElement
+@Entity
 public class Wager {
 
     // Wager: the wager placed by a Player on an outcome;
     // It stores the odd, the amount and the currency of the bet,
     // the date and time when the bet is created and the state of having been processed or not.
 
+    @Id
+    @GeneratedValue(strategy=GenerationType.AUTO)
+    @XmlTransient   //Todo: maskepp
+    private Integer id;
+    @Transient
     Player player;
+    @Transient
     private OutcomeOdd outcomeodd;
     private double amount;
     private Currency currency;
     LocalDateTime timeStamp;
     private boolean isProcessed;
     private boolean isWon;
+    @Transient
     private SportEvent sportEvent;
 
     public Wager() {
@@ -42,12 +56,6 @@ public class Wager {
         this.timeStamp = LocalDateTime.now();
         this.setProcessed(false);
     }
-
-    // @Override
-    // public String toString() {
-    // return "Wager [player=" + player.getName() + ", outcomeodd=" + getOutcomeodd().getOddValue() + ", amount=" + getAmount() + ", currency=" + getCurrency()
-    // + ", timeStamp=" + timeStamp + ", isProcessed=" + isProcessed() + ", isWon=" + isWon() + "]";
-    // }
 
     private boolean isProcessed() {
         return isProcessed;

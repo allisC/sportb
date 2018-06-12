@@ -21,8 +21,9 @@ public class Outcome {
     @Id
     @GeneratedValue(strategy=GenerationType.AUTO)
     private Integer id;
-    
     private String value;
+    @OneToMany
+    public List<OutcomeOdd> outcomeOdds = new ArrayList<OutcomeOdd>();
 
     public Outcome(String value) {
         super();
@@ -37,8 +38,6 @@ public class Outcome {
         this.value = value;
     }
 
-    @OneToMany
-    public List<OutcomeOdd> outcomeOdds = new ArrayList<OutcomeOdd>();
 
     // @Override
     // public String toString() {
