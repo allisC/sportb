@@ -8,7 +8,6 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlTransient;
 import javax.xml.bind.annotation.XmlType;
 
 @XmlAccessorType(XmlAccessType.FIELD)
@@ -18,7 +17,6 @@ public class Player {
     
     @Id
     @GeneratedValue(strategy=GenerationType.AUTO)
-    @XmlTransient   //Todo: mashogy megoldani
     private Integer id;
 
     @Override

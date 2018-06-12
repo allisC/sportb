@@ -15,7 +15,6 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlTransient;
 import javax.xml.bind.annotation.XmlType;
 
-
 import com.epam.training.sportsbetting.domain.outcome.Outcome;
 import com.epam.training.sportsbetting.domain.sportevent.SportEvent;
 
@@ -26,15 +25,14 @@ public class Bet {
     
     @Id
     @GeneratedValue(strategy=GenerationType.AUTO)
-    @XmlTransient  //Todo: maskepp megoldani
     private Integer id;
 
     @XmlTransient
-    @Transient //TODO
+    @Transient    
     private SportEvent sportEvent;
     private String description;
     @XmlTransient
-    @Transient  //TODO
+    @Transient
     private List<Outcome> outcomes = new ArrayList<Outcome>(); // Different outcomes of the bet (list)
 
     public Bet(SportEvent sportEvent, String description, List<Outcome> outcomes) {

@@ -4,14 +4,13 @@ import java.io.File;
 import java.math.BigDecimal;
 
 import com.epam.training.sportsbetting.config.SpringConfigurationDataSource;
-import com.epam.training.sportsbetting.config.SpringConfigurationJpa;
+
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import javax.sql.DataSource;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
@@ -69,7 +68,7 @@ public class App {
         
         try (AnnotationConfigApplicationContext applicationContext = new AnnotationConfigApplicationContext(AppConfig.class, 
                 SpringConfigurationDataSource.class,
-                SpringConfigurationSpringData.class,
+                SpringConfigurationSpringData.class, 
                 SpringConfigurationJpa.class)) {
             
             springDataExample(applicationContext);
@@ -81,15 +80,13 @@ public class App {
 
     }
     
-
-    
     private static void springDataExample(ApplicationContext context) {
         PlayerRepository pr = context.getBean(PlayerRepository.class);
         Player player = createPlayer();
 
         pr.save(player);
 
-        System.out.println(pr.findPlayerByName("Cs"));  
+        System.out.println(pr.findPlayerByName("Cs"));
 
         }
     
@@ -116,12 +113,12 @@ public class App {
 
     public List<Wager> getWagersBeetweenDate(LocalDateTime from, LocalDateTime to) {
         List<Wager> wagers = sbDatabase.getWagers();
-        List<Wager> wagersBetweenDates = new ArrayList<>();
+        List<Wager> wagersBeetweenDates = new ArrayList<>();
         for (Wager wager : wagers) {
             if (wager.getTimeStamp().isAfter(from) && wager.getTimeStamp().isBefore(to))
-                wagersBetweenDates.add(wager);
+                wagersBeetweenDates.add(wager);
         }
-        return wagersBetweenDates;
+        return wagersBeetweenDates;
     }
 
     public void toXml() {
