@@ -15,7 +15,18 @@ import com.epam.training.sportsbetting.domain.user.Player;
 //No unitTests needed
 public class TestDataGenerator {
     
-
+    
+//    private static Player createPlayer() { // (String name, String accountNumber, double balance, Currency currency, LocalDate birthDate) {
+//        Player player = new Player();
+//        player.setName("Cs");
+//        player.setAccountNumber("22");
+//        player.setBalance(66.0);
+//        player.setCurrency(Currency.EUR);
+//        player.setBirthDate(LocalDate.of(2000, 6, 30));
+//        return player;
+//
+//    }
+    
 
     public List<SportEvent> generateSportEvents() {
         List<SportEvent> sportEvents = new ArrayList<SportEvent>();

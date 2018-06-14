@@ -1,13 +1,12 @@
 package com.epam.training.sportsbetting.domain.outcome;
 
+import org.hibernate.annotations.Cascade;
+import org.hibernate.annotations.CascadeType;
+
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.OneToMany;
+import javax.persistence.*;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlTransient;
@@ -22,12 +21,16 @@ public class Outcome {
     @GeneratedValue(strategy=GenerationType.AUTO)
     private Integer id;
     private String value;
-    @OneToMany
+    @OneToMany(fetch = FetchType.EAGER)
+    @Cascade(value = CascadeType.ALL)
     public List<OutcomeOdd> outcomeOdds = new ArrayList<OutcomeOdd>();
 
     public Outcome(String value) {
         super();
         this.value = value;
+    }
+
+    public Outcome() {
     }
 
     public String getValue() {

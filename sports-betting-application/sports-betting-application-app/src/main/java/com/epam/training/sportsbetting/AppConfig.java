@@ -11,7 +11,6 @@ import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
 import org.springframework.context.support.ResourceBundleMessageSource;
 
 import com.epam.training.sportsbetting.config.SpringConfigurationSpringData;
-import com.epam.training.sportsbetting.db.SportBettingDatabase;
 import com.epam.training.sportsbetting.service.ResultGenerator;
 import com.epam.training.sportsbetting.service.SportBettingService;
 import com.epam.training.sportsbetting.ui.IO;
@@ -41,13 +40,8 @@ public class AppConfig {
     }
 
     @Bean
-    public SportBettingDatabase sportBettingDatabase() {
-        return new SportBettingDatabase();
-    }
-
-    @Bean
     public ReadFromConsole readFromConsole() {
-        return new ReadFromConsole(sportsBettingService(), sportBettingDatabase(), io());
+        return new ReadFromConsole(sportsBettingService(), io());
     }
 
     @Bean
@@ -57,12 +51,12 @@ public class AppConfig {
 
     @Bean
     public BettingSession bettingSession() {
-        return new BettingSession(sportBettingDatabase(), sportsBettingService(), readFromConsole(), writeToConsole());
+        return new BettingSession(sportsBettingService(), readFromConsole(), writeToConsole());
     }
 
     @Bean
     public App app() {
-        return new App(sportBettingDatabase(), sportsBettingService(), readFromConsole(), writeToConsole(), bettingSession());
+        return new App(sportsBettingService(), readFromConsole(), writeToConsole(), bettingSession());
     }
 
     @Bean

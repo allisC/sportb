@@ -2,11 +2,11 @@ package com.epam.training.sportsbetting.ui;
 
 import java.util.Locale;
 
+import com.epam.training.sportsbetting.db.PlayerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.MessageSource;
 
-import com.epam.training.sportsbetting.db.SportBettingDatabase;
 import com.epam.training.sportsbetting.domain.user.Currency;
 import com.epam.training.sportsbetting.domain.user.Player;
 import com.epam.training.sportsbetting.service.SportBettingService;
@@ -22,18 +22,18 @@ public class ReadFromConsole {
     public final IO io;
 
     private final SportBettingService sbService;
-    private final SportBettingDatabase sbDatabase;
+    @Autowired
+    private PlayerRepository playerRepository;
 
-    public ReadFromConsole(SportBettingService sbService, SportBettingDatabase sbDatabase, IO io) {
+    public ReadFromConsole(SportBettingService sbService, IO io) {
         super();
         this.sbService = sbService;
-        this.sbDatabase = sbDatabase;
         this.io = io;
     }
 
     public void readPlayerDataFromConsole() {
 
-        Player player = sbDatabase.getPlayer();
+        Player player = playerRepository.findOne(1);
         readName(player);
         readAccountNumber(player);
         readBalance(player);

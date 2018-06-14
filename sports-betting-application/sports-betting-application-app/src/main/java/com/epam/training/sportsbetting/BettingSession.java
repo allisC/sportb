@@ -1,12 +1,18 @@
 package com.epam.training.sportsbetting;
 
-import com.epam.training.sportsbetting.db.SportBettingDatabase;
+import com.epam.training.sportsbetting.db.*;
 import com.epam.training.sportsbetting.domain.outcome.OutcomeOdd;
+import com.epam.training.sportsbetting.domain.sportevent.FootballSportEvent;
 import com.epam.training.sportsbetting.domain.sportevent.SportEvent;
+import com.epam.training.sportsbetting.domain.user.Player;
 import com.epam.training.sportsbetting.domain.wager.Wager;
 import com.epam.training.sportsbetting.service.SportBettingService;
 import com.epam.training.sportsbetting.ui.ReadFromConsole;
 import com.epam.training.sportsbetting.ui.WriteToConsole;
+import org.springframework.beans.factory.annotation.Autowired;
+
+import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 public class BettingSession {
@@ -14,40 +20,54 @@ public class BettingSession {
     private OutcomeOdd selectedOdd;
     private double choosedAmount;
 
-    private final SportBettingDatabase sbDatabase;;
     private final SportBettingService sbService;
     private final ReadFromConsole readFromConsole;
     private final WriteToConsole writeToConsole;
 
-    public BettingSession(SportBettingDatabase sbDatabase, SportBettingService sbService, ReadFromConsole readFromConsole, WriteToConsole writeToConsole) {
+    @Autowired
+    private WagerRepository wagerRepository;
+    @Autowired
+    private PlayerRepository playerRepository;
+    @Autowired
+    private SportsEventRepository sportsEventRepository;
+    @Autowired
+    private FootBallSportsEventRepository footBallSportsEventRepository;
+    @Autowired
+    private OutcomeOddRepository outcomeOddRepository;
+
+    public BettingSession(SportBettingService sbService, ReadFromConsole readFromConsole, WriteToConsole writeToConsole) {
         super();
-        this.sbDatabase = sbDatabase;
         this.sbService = sbService;
         this.readFromConsole = readFromConsole;
         this.writeToConsole = writeToConsole;
     }
 
     public void makeWagers() {
-        List<Wager> wagers = sbDatabase.getWagers();
+        List<Wager> wagers = new ArrayList<>();
+        Iterator<Wager> iterator = wagerRepository.findAll().iterator();
+        while (iterator.hasNext()) wagers.add(iterator.next());
         selectedOdd = selectOdd();
+        Player player = playerRepository.findOne(1);
         while (selectedOdd != null) {
-            sbService.createWager(sbDatabase.getPlayer(), choosedAmount, selectedOdd, wagers);
-            writeToConsole.printBalance(sbDatabase.getPlayer());
-            if (sbDatabase.getPlayer().getBalance() > 0) {
+            sbService.createWager(player, choosedAmount, selectedOdd, wagers);
+            writeToConsole.printBalance(player);
+            if (player.getBalance() > 0) {
                 selectedOdd = selectOdd();
             } else {
                 selectedOdd = null;
             }
         }
-        List<SportEvent> sportEvents = sbDatabase.getSportEvents();
+        SportEvent sportEvent = sportsEventRepository.findAll().iterator().next();
         for (Wager wager : wagers) {
-            wager.setSportEvent(sportEvents.get(0));
+            wager.setSportEvent(sportEvent);
         }
     }
 
     OutcomeOdd selectOdd() {
-        writeToConsole.printOutcomes(sbDatabase.getSportEvents());
-        sbDatabase.setSavedOdds(sbService.getOdds(sbDatabase.getSportEvents()));
+        List<SportEvent> sportEvents = getSportEvents();
+        writeToConsole.printOutcomes(sportEvents);
+        ArrayList<OutcomeOdd> odds = sbService.getOdds(sportEvents);
+        outcomeOddRepository.save(odds);
         boolean dataIsValid = false;
         int choosedNumber;
         OutcomeOdd result = null;
@@ -57,15 +77,24 @@ public class BettingSession {
                 dataIsValid = true;
             } else {
                 choosedNumber = Integer.parseInt(readLine);
-                if (choosedNumber <= sbDatabase.getSavedOdds().size() && choosedNumber > 0) {
+                if (choosedNumber <= odds.size() && choosedNumber > 0) {
                     dataIsValid = true;
-                    choosedAmount = readFromConsole.readAmount(sbDatabase.getPlayer());
+                    choosedAmount = readFromConsole.readAmount(playerRepository.findOne(1));
                     if (choosedAmount > 0) {
-                        result = sbDatabase.getSavedOdds().get(choosedNumber - 1);
+                        result = odds.get(choosedNumber - 1);
                     }
                 }
             }
         } while (!dataIsValid);
         return result;
+    }
+
+    private List<SportEvent> getSportEvents() {
+        Iterator<FootballSportEvent> iterator = footBallSportsEventRepository.findAll().iterator();
+        List<SportEvent> sportEvents = new ArrayList<>();
+        while (iterator.hasNext()) {
+            sportEvents.add(iterator.next());
+        }
+        return sportEvents;
     }
 }

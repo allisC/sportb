@@ -30,6 +30,9 @@ public class OutcomeOdd {
         this.validTo = validTo;
     }
 
+    public OutcomeOdd() {
+    }
+
     public double getOddValue() {
         return oddValue;
     }
